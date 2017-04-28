@@ -147,22 +147,46 @@ def _make_data_gen(hypes, phase, data_dir):
 
     data_file = os.path.join(data_dir, data_file)
 
-    road_color = np.array(hypes['data']['road_color'])
-    background_color = np.array(hypes['data']['background_color'])
+    color_classes = []
+    color_classes.append(np.array(hypes['data']['background_color']))
+    color_classes.append(np.array(hypes['data']['aeroplan']))
+    color_classes.append( np.array(hypes['data']['bicycle']))
+    color_classes.append( np.array(hypes['data']['bird']))
+    color_classes.append( np.array(hypes['data']['bottle']))
+    color_classes.append( np.array(hypes['data']['boat']))
+    color_classes.append( np.array(hypes['data']['bus']))
+    color_classes.append( np.array(hypes['data']['car']))
+    color_classes.append( np.array(hypes['data']['cat']))
+    color_classes.append( np.array(hypes['data']['chair']))
+    color_classes.append( np.array(hypes['data']['cow']))
+    color_classes.append( np.array(hypes['data']['dinningTable']))
+    color_classes.append( np.array(hypes['data']['dog']))
+    color_classes.append( np.array(hypes['data']['horse']))
+    color_classes.append( np.array(hypes['data']['motorBike']))
+    color_classes.append( np.array(hypes['data']['person']))
+    color_classes.append( np.array(hypes['data']['pottedPlant']))
+    color_classes.append( np.array(hypes['data']['sheep']))
+    color_classes.append( np.array(hypes['data']['sofa']))
+    color_classes.append(np.array(hypes['data']['train']))
+    color_classes.append(np.array(hypes['data']['tvmonitor']))
 
     data = _load_gt_file(hypes, data_file)
 
     for image, gt_image in data:
+        gt_color_classes = [np.all(gt_image == i, axis=2) for i in color_classes]
 
-        gt_bg = np.all(gt_image == background_color, axis=2)
-        gt_road = np.all(gt_image == road_color, axis=2)
+        # gt_bg = np.all(gt_image == background_color, axis=2)
+        # gt_road = np.all(gt_image == road_color, axis=2)
 
-        assert(gt_road.shape == gt_bg.shape)
-        shape = gt_bg.shape
-        gt_bg = gt_bg.reshape(shape[0], shape[1], 1)
-        gt_road = gt_road.reshape(shape[0], shape[1], 1)
+        assert(gt_color_classes[0].shape == gt_color_classes[0].shape)
+        shape = gt_color_classes[0].shape
 
-        gt_image = np.concatenate((gt_bg, gt_road), axis=2)
+        gt_color_classes = [i.reshape(shape[0], shape[1], 1) for i  in gt_color_classes]
+
+        # gt_bg = gt_bg.reshape(shape[0], shape[1], 1)
+        # gt_road = gt_road.reshape(shape[0], shape[1], 1)
+
+        gt_image = np.concatenate(gt_color_classes, axis=2)
 
         if phase == 'val':
             yield image, gt_image
