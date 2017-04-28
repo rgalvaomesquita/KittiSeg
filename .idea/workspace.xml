@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0164f0be-ef2a-477b-b634-d69af7cc9145" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/KittiSeg.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/decoder/kitti_multiloss.py" afterPath="$PROJECT_DIR$/decoder/kitti_multiloss.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/encoder/fcn8_vgg.py" afterPath="$PROJECT_DIR$/encoder/fcn8_vgg.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hypes/KittiSeg.json" afterPath="$PROJECT_DIR$/hypes/KittiSeg.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inputs/kitti_seg_input.py" afterPath="$PROJECT_DIR$/inputs/kitti_seg_input.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -43,18 +45,18 @@
       <file leaf-file-name="kitti_multiloss.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/decoder/kitti_multiloss.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="533">
-              <caret line="79" column="73" lean-forward="false" selection-start-line="79" selection-start-column="73" selection-end-line="79" selection-end-column="73" />
+            <state relative-caret-position="1919">
+              <caret line="132" column="18" lean-forward="false" selection-start-line="132" selection-start-column="15" selection-end-line="132" selection-end-column="18" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fcn8_vgg.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="fcn8_vgg.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/encoder/fcn8_vgg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+            <state relative-caret-position="333">
+              <caret line="37" column="72" lean-forward="false" selection-start-line="37" selection-start-column="72" selection-end-line="37" selection-end-column="72" />
               <folding>
                 <element signature="e#196#234#0" expanded="true" />
               </folding>
@@ -62,10 +64,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KittiSeg.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="KittiSeg.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hypes/KittiSeg.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
+            <state relative-caret-position="-260">
               <caret line="33" column="14" lean-forward="false" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
               <folding />
             </state>
@@ -87,8 +89,8 @@
       <list>
         <option value="$PROJECT_DIR$/encoder/fcn8_vgg.py" />
         <option value="$PROJECT_DIR$/inputs/kitti_seg_input.py" />
-        <option value="$PROJECT_DIR$/decoder/kitti_multiloss.py" />
         <option value="$PROJECT_DIR$/hypes/KittiSeg.json" />
+        <option value="$PROJECT_DIR$/decoder/kitti_multiloss.py" />
       </list>
     </option>
   </component>
@@ -482,16 +484,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/encoder/fcn8_vgg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding>
-            <element signature="e#196#234#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/inputs/kitti_seg_input.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="415">
@@ -500,19 +492,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/decoder/kitti_multiloss.py">
+    <entry file="file://$PROJECT_DIR$/hypes/KittiSeg.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="79" column="73" lean-forward="false" selection-start-line="79" selection-start-column="73" selection-end-line="79" selection-end-column="73" />
+        <state relative-caret-position="-260">
+          <caret line="33" column="14" lean-forward="false" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hypes/KittiSeg.json">
+    <entry file="file://$PROJECT_DIR$/decoder/kitti_multiloss.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="33" column="14" lean-forward="false" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
+        <state relative-caret-position="1919">
+          <caret line="132" column="18" lean-forward="false" selection-start-line="132" selection-start-column="15" selection-end-line="132" selection-end-column="18" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/encoder/fcn8_vgg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="37" column="72" lean-forward="false" selection-start-line="37" selection-start-column="72" selection-end-line="37" selection-end-column="72" />
+          <folding>
+            <element signature="e#196#234#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

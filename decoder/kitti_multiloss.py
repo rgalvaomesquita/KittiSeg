@@ -63,7 +63,7 @@ def loss(hypes, decoded_logits, labels):
     logits = decoded_logits['logits']
     with tf.name_scope('loss'):
         logits = tf.reshape(logits, (-1, hypes['arch']['num_classes']))
-        shape = [logits.get_shape()[0], 2]
+        shape = [logits.get_shape()[0],  hypes['arch']['num_classes']]
         epsilon = tf.constant(value=hypes['solver']['epsilon'])
         # logits = logits + epsilon
         labels = tf.to_float(tf.reshape(labels, (-1, hypes['arch']['num_classes'])))
@@ -147,8 +147,8 @@ def evaluation(hyp, images, labels, decoded_logits, losses, global_step):
     # the examples where the label's is was in the top k (here k=1)
     # of all logits for that example.
     eval_list = []
-    logits = tf.reshape(decoded_logits['logits'], (-1, 2))
-    labels = tf.reshape(labels, (-1, 2))
+    logits = tf.reshape(decoded_logits['logits'], (-1,  hyp['arch']['num_classes']))
+    labels = tf.reshape(labels, (-1,  hyp['arch']['num_classes']))
 
     pred = tf.argmax(logits, dimension=1)
 
