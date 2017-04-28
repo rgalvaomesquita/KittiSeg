@@ -9,8 +9,8 @@
   "path": ["../incl"],
 
   "data": {
-    "train_file" : "data_road/train3.txt",
-    "val_file" : "data_road/val3.txt",
+    "train_file" : "data_voc2012/train.txt",
+    "val_file" : "data_voc2012/val.txt",
     "background_color" : [255,0,0],
     "aeroplan": [128,0,0],
     "bicycle":  [0,128,0],

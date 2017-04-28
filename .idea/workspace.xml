@@ -6,8 +6,7 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/decoder/kitti_multiloss.py" afterPath="$PROJECT_DIR$/decoder/kitti_multiloss.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hypes/KittiSeg.json" afterPath="$PROJECT_DIR$/hypes/KittiSeg.json" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -52,11 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fcn8_vgg.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="fcn8_vgg.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/encoder/fcn8_vgg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="37" column="72" lean-forward="false" selection-start-line="37" selection-start-column="72" selection-end-line="37" selection-end-column="72" />
+            <state relative-caret-position="603">
+              <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
               <folding>
                 <element signature="e#196#234#0" expanded="true" />
               </folding>
@@ -64,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KittiSeg.json" pinned="false" current-in-tab="false">
+      <file leaf-file-name="KittiSeg.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hypes/KittiSeg.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-260">
-              <caret line="33" column="14" lean-forward="false" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
+            <state relative-caret-position="216">
+              <caret line="12" column="30" lean-forward="false" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -89,8 +88,8 @@
       <list>
         <option value="$PROJECT_DIR$/encoder/fcn8_vgg.py" />
         <option value="$PROJECT_DIR$/inputs/kitti_seg_input.py" />
-        <option value="$PROJECT_DIR$/hypes/KittiSeg.json" />
         <option value="$PROJECT_DIR$/decoder/kitti_multiloss.py" />
+        <option value="$PROJECT_DIR$/hypes/KittiSeg.json" />
       </list>
     </option>
   </component>
@@ -492,14 +491,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hypes/KittiSeg.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-260">
-          <caret line="33" column="14" lean-forward="false" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/decoder/kitti_multiloss.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1919">
@@ -510,11 +501,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/encoder/fcn8_vgg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="37" column="72" lean-forward="false" selection-start-line="37" selection-start-column="72" selection-end-line="37" selection-end-column="72" />
+        <state relative-caret-position="603">
+          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
           <folding>
             <element signature="e#196#234#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hypes/KittiSeg.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="30" lean-forward="false" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
