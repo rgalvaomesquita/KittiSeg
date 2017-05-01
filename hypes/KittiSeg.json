@@ -2,7 +2,7 @@
   "model": {
     "input_file": "../inputs/kitti_seg_input.py",
     "architecture_file" : "../encoder/fcn8_vgg.py",
-    "objective_file" : "../decoder/kitti_multiloss.py",
+    "objective_file" : "../decoder/fcn.py",
     "optimizer_file" : "../optimizer/generic_optimizer.py",
     "evaluator_file" : "../evals/kitti_eval.py"
   },
@@ -67,7 +67,7 @@
 
   "logging": {
     "display_iter": 20,
-    "eval_iter": 100,
+    "eval_iter": 1000,
     "write_iter": 100,
     "save_iter": 2000,
     "image_iter": 20000
