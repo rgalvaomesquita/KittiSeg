@@ -169,25 +169,29 @@ def main(_):
         image = scp.misc.imresize(image, size=(image_height, image_width),
                                   interp='cubic')
 
+    # classes
+    classes_colors =  [[0, 0, 0], [128, 0, 0], [0, 128, 0], [128, 128, 0], [0, 0, 128], [128, 0, 128], [0, 128, 128], [128, 128, 128],
+                       [64, 0, 0], [192, 0, 0],[64, 128, 0],[192, 128, 0], [64, 0, 128],[192, 0, 128],
+                       [64, 128, 128],[192, 128, 128], [0, 64, 0], [128, 64, 0],[0, 192, 0], [128, 192, 0], [0, 64, 128],[224, 224, 192]]
+
     # Run KittiSeg model on image
     feed = {image_pl: image}
     softmax = prediction['softmax']
-    output = sess.run([softmax], feed_dict=feed)
+    logits = prediction['logits']
+    output , lll = sess.run([softmax,logits], feed_dict=feed)
 
     # Reshape output from flat vector to 2D Image
     shape = image.shape
-    output_image = output[0][:, 1].reshape(shape[0], shape[1])
+    output_image = output.reshape(shape[0], shape[1],22)
 
-    # Plot confidences as red-blue overlay
-    rb_image = seg.make_overlay(image, output_image)
+    x = np.argmax(output_image,axis=2)
+    im = np.zeros((shape[0], shape[1],3))
+    for i,_ in enumerate(x):
+        for j,_ in enumerate(x[i]):
+            value = x[i][j]
+            color_code  = classes_colors[value]
+            im[i][j] = color_code
 
-    # Accept all pixel with conf >= 0.5 as positive prediction
-    # This creates a `hard` prediction result for class street
-    threshold = 0.5
-    street_prediction = output_image > threshold
-
-    # Plot the hard prediction as green overlay
-    green_image = tv_utils.fast_overlay(image, street_prediction)
 
     # Save output images to disk.
     if FLAGS.output_image is None:
@@ -196,21 +200,8 @@ def main(_):
         output_base_name = FLAGS.output_image
 
     raw_image_name = output_base_name.split('.')[0] + '_raw.png'
-    rb_image_name = output_base_name.split('.')[0] + '_rb.png'
-    green_image_name = output_base_name.split('.')[0] + '_green.png'
 
-    scp.misc.imsave(raw_image_name, output_image)
-    scp.misc.imsave(rb_image_name, rb_image)
-    scp.misc.imsave(green_image_name, green_image)
-
-    logging.info("")
-    logging.info("Raw output image has been saved to: {}".format(
-        os.path.realpath(raw_image_name)))
-    logging.info("Red-Blue overlay of confs have been saved to: {}".format(
-        os.path.realpath(rb_image_name)))
-    logging.info("Green plot of predictions have been saved to: {}".format(
-        os.path.realpath(green_image_name)))
-
+    scp.misc.imsave(raw_image_name, im)
 
 if __name__ == '__main__':
     tf.app.run()

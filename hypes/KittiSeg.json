@@ -11,7 +11,7 @@
   "data": {
     "train_file" : "data_voc2012/train.txt",
     "val_file" : "data_voc2012/val.txt",
-    "background_color" : [255,0,0],
+    "background_color" : [0,0,0],
     "aeroplan": [128,0,0],
     "bicycle":  [0,128,0],
     "bird":     [128,128,0],
@@ -32,15 +32,16 @@
     "sofa":        [0,192,0],
     "train":       [128,192,0],
     "tvmonitor":   [0,64,128],
+    "boundary":[224,224,192],
     "vgg_url": "ftp://mi.eng.cam.ac.uk/pub/mttt2/models/vgg16.npy",
     "kitti_url": "http://kitti.is.tue.mpg.de/kitti/data_road.zip"
   },
  
   "arch": {
     "fcn_in": "fc7",
-    "num_classes" : 21,
+    "num_classes" : 22,
     "image_size" : 50,
-    "weight": [1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1],
+    "weight": [1, 3,3, 3,3, 3,3, 3,3, 3,3, 3,3, 3,3, 3,3, 3,3, 3,3, 1],
     "num_channels" : 3,
     "whitening": false
   },
@@ -66,11 +67,11 @@
   },
 
   "logging": {
-    "display_iter": 20,
+    "display_iter": 100,
     "eval_iter": 1000,
-    "write_iter": 100,
-    "save_iter": 2000,
-    "image_iter": 20000
+    "write_iter": 2000,
+    "save_iter": 6000,
+    "image_iter": 2000
   },
 
   "solver": {
@@ -81,7 +82,7 @@
       "threads": 4,
       "learning_rate": 1e-5,
       "learning_rate_step": null,
-      "max_steps": 12000
+      "max_steps": 250000
   },
   "use_fc_wd": true,
   "loss": "xentropy",

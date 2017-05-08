@@ -79,3 +79,6 @@ target/
 
 #.idea file
 .idea/
+
+#results
+results/
