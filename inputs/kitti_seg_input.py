@@ -149,7 +149,7 @@ def _make_data_gen(hypes, phase, data_dir):
 
     color_classes = []
     color_classes.append(np.array(hypes['data']['background_color']))
-    color_classes.append(np.array(hypes['data']['aeroplan']))
+    color_classes.append(np.array(hypes['data']['aeroplane']))
     color_classes.append( np.array(hypes['data']['bicycle']))
     color_classes.append( np.array(hypes['data']['bird']))
     color_classes.append( np.array(hypes['data']['bottle']))
@@ -169,7 +169,6 @@ def _make_data_gen(hypes, phase, data_dir):
     color_classes.append( np.array(hypes['data']['sofa']))
     color_classes.append(np.array(hypes['data']['train']))
     color_classes.append(np.array(hypes['data']['tvmonitor']))
-    color_classes.append(np.array(hypes['data']['boundary']))
 
     data = _load_gt_file(hypes, data_file)
 
@@ -182,7 +181,7 @@ def _make_data_gen(hypes, phase, data_dir):
         assert(gt_color_classes[0].shape == gt_color_classes[0].shape)
         shape = gt_color_classes[0].shape
 
-        gt_color_classes = [i.reshape(shape[0], shape[1], 1) for i  in gt_color_classes]
+        gt_color_classes = [i.reshape(shape[0], shape[1], 1) for i in gt_color_classes]
 
         # gt_bg = gt_bg.reshape(shape[0], shape[1], 1)
         # gt_road = gt_road.reshape(shape[0], shape[1], 1)

@@ -120,7 +120,7 @@ def main(_):
 
     utils._add_paths_to_sys(hypes)
 
-    train.maybe_download_and_extract(hypes)
+    #train.maybe_download_and_extract(hypes)
     logging.info("Initialize training folder")
     train.initialize_training_folder(hypes)
     logging.info("Start training")
