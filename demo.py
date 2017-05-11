@@ -182,10 +182,10 @@ def main(_):
 
     # Reshape output from flat vector to 2D Image
     shape = image.shape
-    output_image = output.reshape(shape[0], shape[1],22)
+    output_image = output.reshape(shape[0], shape[1], -1)
 
     x = np.argmax(output_image,axis=2)
-    im = np.zeros((shape[0], shape[1],3))
+    im = np.zeros((shape[0], shape[1],3), dtype=np.uint8)
     for i,_ in enumerate(x):
         for j,_ in enumerate(x[i]):
             value = x[i][j]
