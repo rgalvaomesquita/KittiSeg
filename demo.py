@@ -177,8 +177,7 @@ def main(_):
     # Run KittiSeg model on image
     feed = {image_pl: image}
     softmax = prediction['softmax']
-    logits = prediction['logits']
-    output , lll = sess.run([softmax,logits], feed_dict=feed)
+    output = sess.run(softmax, feed_dict=feed)
 
     # Reshape output from flat vector to 2D Image
     shape = image.shape
