@@ -10,19 +10,22 @@
   "path": ["../incl"],
 
   "data": {
-    "train_file" : "data_road/train3.txt",
-    "val_file" : "data_road/val3.txt",
-    "road_color" : [255,0,255],
-    "background_color" : [255,0,0],
-    "vgg_url": "https://dl.dropboxusercontent.com/u/50333326/vgg16.npy",
-    "kitti_url": ""
+    "train_file" : "data_road/train41.txt",
+    "val_file" : "data_road/val41.txt",
+    "background_color" : [0,0,0],
+    "paved_road_color" : [0,0,255],
+    "nonpaved_road_color" : [0,255,0],
+    "rocks_road_color" : [255,0,0],
+
+    "vgg_url": "ftp://mi.eng.cam.ac.uk/pub/mttt2/models/tensorflow_resnet/ResNet-L101.ckpt",
+    "kitti_url": "http://kitti.is.tue.mpg.de/kitti/data_road.zip"
   },
  
   "arch": {
     "layers": 101,
-    "num_classes" : 2,
+    "num_classes" : 4,
     "image_size" : 50,
-    "weight": [1, 2],
+    "weight": [1, 2, 2, 2],
     "num_channels" : 3,
     "whitening": false
   },
@@ -35,13 +38,13 @@
     "sig": 0.15,
     "res_chance": 0.4,
     "random_crop": true,
+    "max_crop": 32,
     "crop_patch": false,
     "patch_height": 256,
     "patch_width": 256,
-    "max_crop": 32,
     "crop_chance": 0.8,
     "fix_shape": false,
-    "reseize_image": true,
+    "reseize_image": false,
     "image_height" : 384,
     "image_width" : 1248,
     "augment_level": 1
@@ -63,7 +66,7 @@
       "threads": 4,
       "learning_rate": 1e-5,
       "learning_rate_step": null,
-      "max_steps": 12000
+      "max_steps": 24000
   },
   "use_fc_wd": true,
   "loss": "xentropy",

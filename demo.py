@@ -41,10 +41,17 @@ import numpy as np
 import scipy as scp
 import scipy.misc
 import tensorflow as tf
-
-
+import cv2
+import matplotlib
 flags = tf.app.flags
 FLAGS = flags.FLAGS
+
+
+#inputdir = "C:\\Pesquisa\\codigos\\KittiSeg_shivam\\KittiSeg\\data\\dataset_Olinda_heading-1_noPolylines\\"
+inputdir = "C:\\Pesquisa\\codigos\\KittiSeg_shivam\\KittiSeg\\data\\dataset_Olinda_varHeading_fov90\\teste2\\"
+#inputdir = "C:\\Pesquisa\\codigos\\KittiSeg_shivam\\KittiSeg\\data\\dataset_Olinda_varHeading_fov90\\train + val\\"
+dirResName = '\\results\\'
+
 
 sys.path.insert(1, 'incl')
 
@@ -102,17 +109,31 @@ def resize_label_image(image, gt_image, image_height, image_width):
 
     return image, gt_image
 
+def convertToHSV(rgb_image):
+    norm_image = rgb_image;
+    norm_image = cv2.normalize(rgb_image,norm_image, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+    image_hsv = matplotlib.colors.rgb_to_hsv(norm_image)
+    image_hsv = cv2.normalize(image_hsv,image_hsv, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+    return image_hsv
 
 def main(_):
+    blank_image = scp.misc.imread('blank_image_google.png')
+    output_dir_raw=''
+    output_dir_raw=output_dir_raw+FLAGS.logdir
+    output_dir_raw=output_dir_raw+dirResName
+    print(output_dir_raw)
+    
+    os.makedirs(output_dir_raw, exist_ok=True)
+    
     tv_utils.set_gpus_to_use()
 
-    if FLAGS.input_image is None:
-        logging.error("No input_image was given.")
-        logging.info(
-            "Usage: python demo.py --input_image data/test.png "
-            "[--output_image output_image] [--logdir /path/to/weights] "
-            "[--gpus GPUs_to_use] ")
-        exit(1)
+    # if FLAGS.input_image is None:
+    #     logging.error("No input_image was given.")
+    #     logging.info(
+    #         "Usage: python demo.py --input_image data/test.png "
+    #         "[--output_image output_image] [--logdir /path/to/weights] "
+    #         "[--gpus GPUs_to_use] ")
+    #     exit(1)
 
     if FLAGS.logdir is None:
         # Download and use weights from the MultiNet Paper
@@ -157,50 +178,88 @@ def main(_):
 
         logging.info("Weights loaded successfully.")
 
-    input_image = FLAGS.input_image
-    logging.info("Starting inference using {} as input".format(input_image))
+    
+    
+    
+    for streetname in os.listdir(inputdir):   
+        ##trocar linha comentada abaixo pelas posteriores
+        streetpath = os.path.join(inputdir,streetname)
+        #streetpath = inputdir
+        #streetname = 'unica'
+        output_dir_raw_currentstreet = os.path.join(output_dir_raw,streetname)
+        
+        print("output_dir_raw_currentstreet: "+output_dir_raw_currentstreet)
+        #input('parada:')
+        os.makedirs(output_dir_raw_currentstreet, exist_ok=True)
+        
+        
 
-    # Load and resize input image
-    image = scp.misc.imread(input_image)
-    if hypes['jitter']['reseize_image']:
-        # Resize input only, if specified in hypes
-        image_height = hypes['jitter']['image_height']
-        image_width = hypes['jitter']['image_width']
-        image = scp.misc.imresize(image, size=(image_height, image_width),
-                                  interp='cubic')
+        for filename in os.listdir(streetpath):
+            
+            input_image = os.path.join(streetpath,filename)
+            
+            logging.info("Starting inference using {} as input".format(input_image))
 
-    # classes
-    classes_colors =  [[0, 0, 0], [128, 0, 0], [0, 128, 0], [128, 128, 0], [0, 0, 128], [128, 0, 128], [0, 128, 128], [128, 128, 128],
-                       [64, 0, 0], [192, 0, 0],[64, 128, 0],[192, 128, 0], [64, 0, 128],[192, 0, 128],
-                       [64, 128, 128],[192, 128, 128], [0, 64, 0], [128, 64, 0],[0, 192, 0], [128, 192, 0], [0, 64, 128]]
+            # Load and resize input image
+            image = scp.misc.imread(input_image)
 
-    # Run KittiSeg model on image
-    feed = {image_pl: image}
-    softmax = prediction['softmax']
-    output = sess.run(softmax, feed_dict=feed)
+            width, height, z = blank_image.shape
+            isBlank = True;
+            for i in range(width):
+                for j in range(height):
+                    if blank_image[i,j,0] != image[i,j,0] or blank_image[i,j,1] != image[i,j,1] or blank_image[i,j,2] != image[i,j,2]:
+                        isBlank = False
+                        break
+                if isBlank == False:
+                    break
+            
+            if isBlank:
+                continue
 
-    # Reshape output from flat vector to 2D Image
-    shape = image.shape
-    output_image = output.reshape(shape[0], shape[1], -1)
+            
+            
+            
+            if hypes['jitter']['reseize_image']:
+                # Resize input only, if specified in hypes
+                image_height = hypes['jitter']['image_height']
+                image_width = hypes['jitter']['image_width']
+                image = scp.misc.imresize(image, size=(image_height, image_width),
+                                          interp='cubic')
+            #image = convertToHSV(image)
+            # classes
+            classes_colors =  [ hypes['data']['background_color'], hypes['data']['paved_road_color'], hypes['data']['nonpaved_road_color'] , hypes['data']['rocks_road_color']]
+            #classes_colors =  [ hypes['data']['background_color'], hypes['data']['paved_road_color'], hypes['data']['nonpaved_road_color'] ]
 
-    x = np.argmax(output_image,axis=2)
-    im = np.zeros((shape[0], shape[1],3), dtype=np.uint8)
-    for i,_ in enumerate(x):
-        for j,_ in enumerate(x[i]):
-            value = x[i][j]
-            color_code  = classes_colors[value]
-            im[i][j] = color_code
+            # Run KittiSeg model on image
+            feed = {image_pl: image}
+            softmax = prediction['softmax']
+            output = sess.run(softmax, feed_dict=feed)
+
+            # Reshape output from flat vector to 2D Image
+            shape = image.shape
+            output_image = output.reshape(shape[0], shape[1], -1)
+
+            x = np.argmax(output_image,axis=2)
+            im = np.zeros((shape[0], shape[1],3), dtype=np.uint8)
+            for i,_ in enumerate(x):
+                for j,_ in enumerate(x[i]):
+                    value = x[i][j]
+                    color_code  = classes_colors[value]
+                    im[i][j] = color_code
 
 
-    # Save output images to disk.
-    if FLAGS.output_image is None:
-        output_base_name = input_image
-    else:
-        output_base_name = FLAGS.output_image
+            # Save output images to disk.
+            if FLAGS.output_image is None:
+                output_base_name = input_image
+            else:
+                output_base_name = FLAGS.output_image
 
-    raw_image_name = output_base_name.split('.')[0] + '_raw.png'
-
-    scp.misc.imsave(raw_image_name, im)
+            raw_image_name = filename.split('.png')[0] + '_raw.png'
+            #print('============= '+output_dir_raw_currentstreet)
+            #print('============= '+raw_image_name)
+            #print('============= '+os.path.join(output_dir_raw_currentstreet, raw_image_name))
+            #input('parada:')
+            scp.misc.imsave(os.path.join(output_dir_raw_currentstreet, raw_image_name), im)
 
 if __name__ == '__main__':
     tf.app.run()

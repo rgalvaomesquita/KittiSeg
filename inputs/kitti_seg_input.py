@@ -25,7 +25,7 @@ import numpy as np
 
 import scipy as scp
 import scipy.misc
-
+import matplotlib
 import tensorflow as tf
 from tensorflow.python.ops import math_ops
 from tensorflow.python.training import queue_runner
@@ -33,7 +33,7 @@ from tensorflow.python.ops import data_flow_ops
 from tensorflow.python.framework import dtypes
 
 import threading
-
+import cv2
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                     level=logging.INFO,
@@ -99,6 +99,12 @@ def maybe_download_and_extract(hypes):
     utils.download(vgg_url, data_dir)
     return
 
+def convertToHSV(rgb_image):
+    norm_image = rgb_image;
+    norm_image = cv2.normalize(rgb_image,norm_image, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+    image_hsv = matplotlib.colors.rgb_to_hsv(norm_image)
+    image_hsv = cv2.normalize(image_hsv,image_hsv, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+    return image_hsv
 
 def _load_gt_file(hypes, data_file=None):
     """Take the data_file and hypes and create a generator.
@@ -111,7 +117,9 @@ def _load_gt_file(hypes, data_file=None):
     for epoche in itertools.count():
         shuffle(files)
         for file in files:
-            image_file, gt_image_file = file.split(" ")
+            
+            image_file, gt_image_file = file.split(".png ")
+            image_file+=".png"
             image_file = os.path.join(base_path, image_file)
             assert os.path.exists(image_file), \
                 "File does not exist: %s" % image_file
@@ -119,12 +127,13 @@ def _load_gt_file(hypes, data_file=None):
             assert os.path.exists(gt_image_file), \
                 "File does not exist: %s" % gt_image_file
             image = scipy.misc.imread(image_file, mode='RGB')
+            #image = convertToHSV(image)
+            
             # Please update Scipy, if mode='RGB' is not avaible
             gt_image = scp.misc.imread(gt_image_file, mode='RGB')
 
             yield image, gt_image
-
-
+            
 def _make_data_gen(hypes, phase, data_dir):
     """Return a data generator that outputs image samples.
 
@@ -149,26 +158,11 @@ def _make_data_gen(hypes, phase, data_dir):
 
     color_classes = []
     color_classes.append(np.array(hypes['data']['background_color']))
-    color_classes.append(np.array(hypes['data']['aeroplane']))
-    color_classes.append( np.array(hypes['data']['bicycle']))
-    color_classes.append( np.array(hypes['data']['bird']))
-    color_classes.append( np.array(hypes['data']['bottle']))
-    color_classes.append( np.array(hypes['data']['boat']))
-    color_classes.append( np.array(hypes['data']['bus']))
-    color_classes.append( np.array(hypes['data']['car']))
-    color_classes.append( np.array(hypes['data']['cat']))
-    color_classes.append( np.array(hypes['data']['chair']))
-    color_classes.append( np.array(hypes['data']['cow']))
-    color_classes.append( np.array(hypes['data']['dinningTable']))
-    color_classes.append( np.array(hypes['data']['dog']))
-    color_classes.append( np.array(hypes['data']['horse']))
-    color_classes.append( np.array(hypes['data']['motorBike']))
-    color_classes.append( np.array(hypes['data']['person']))
-    color_classes.append( np.array(hypes['data']['pottedPlant']))
-    color_classes.append( np.array(hypes['data']['sheep']))
-    color_classes.append( np.array(hypes['data']['sofa']))
-    color_classes.append(np.array(hypes['data']['train']))
-    color_classes.append(np.array(hypes['data']['tvmonitor']))
+    color_classes.append(np.array(hypes['data']['paved_road_color']))
+    color_classes.append(np.array(hypes['data']['nonpaved_road_color']))
+    color_classes.append(np.array(hypes['data']['rocks_road_color']))  
+    #color_classes.append(np.array(hypes['data']['nonpaved2_road_color']))
+    
 
     data = _load_gt_file(hypes, data_file)
 
@@ -376,7 +370,8 @@ def start_enqueuing_threads(hypes, q, phase, sess):
 
     enqueue_op = q.enqueue((image_pl, label_pl))
     gen = _make_data_gen(hypes, phase, data_dir)
-    gen.next()
+    #gen.next()
+    next(gen)
     # sess.run(enqueue_op, feed_dict=make_feed(data))
     if phase == 'val':
         num_threads = 1

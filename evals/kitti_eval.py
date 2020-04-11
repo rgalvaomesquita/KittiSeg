@@ -19,19 +19,46 @@ import tensorvision
 import tensorvision.utils as utils
 
 
+# def eval_image(hypes, gt_image, cnn_image):
+#     """."""
+#     thresh = np.array(range(0, 256))/255.0
+
+#     road_color = np.array(hypes['data']['road_color'])
+#     background_color = np.array(hypes['data']['background_color'])
+#     gt_road = np.all(gt_image == road_color, axis=2)
+#     gt_bg = np.all(gt_image == background_color, axis=2)
+#     valid_gt = gt_road + gt_bg
+
+#     FN, FP, posNum, negNum = seg.evalExp(gt_road, cnn_image,
+#                                          thresh, validMap=None,
+#                                          validArea=valid_gt)
+
+#     return FN, FP, posNum, negNum
+
 def eval_image(hypes, gt_image, cnn_image):
     """."""
     thresh = np.array(range(0, 256))/255.0
 
-    road_color = np.array(hypes['data']['road_color'])
-    background_color = np.array(hypes['data']['background_color'])
-    gt_road = np.all(gt_image == road_color, axis=2)
-    gt_bg = np.all(gt_image == background_color, axis=2)
-    valid_gt = gt_road + gt_bg
+    FN,FP = np.zeros(thresh.shape),np.zeros(thresh.shape)
+    posNum, negNum = 0,0
 
-    FN, FP, posNum, negNum = seg.evalExp(gt_road, cnn_image,
-                                         thresh, validMap=None,
-                                         validArea=valid_gt)
+    colors = []
+    for key in hypes['colors']:
+        colors.append(np.array(hypes['colors'][key]))
+
+    valid_gt = np.all(gt_image == colors[0], axis=2)
+    for i in range(1,len(colors)) :
+        valid_gt = valid_gt + np.all(gt_image == colors[i], axis=2)
+
+    for i in range(len(colors)) :
+        N, P, pos, neg = seg.evalExp(np.all(gt_image == colors[i], axis=2),
+                                             cnn_image,
+                                             thresh, validMap=None,
+                                             validArea=valid_gt)
+        FN = np.add(FN,N)
+        FP = np.add(FP,P)
+        posNum+=pos
+        negNum+=neg
 
     return FN, FP, posNum, negNum
 

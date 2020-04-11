@@ -6,41 +6,27 @@
     "optimizer_file" : "../optimizer/generic_optimizer.py",
     "evaluator_file" : "../evals/kitti_eval.py"
   },
+
   "path": ["../incl"],
 
   "data": {
-    "train_file" : "SegmentationClassAug/train.txt",
-    "val_file" : "SegmentationClassAug/val.txt",
+    "train_file" : "data_road/retrain_SVM_balanced_novo_1_train.txt",
+    "val_file" : "data_road/retrain_SVM_balanced_novo_1_train_val.txt",
     "background_color" : [0,0,0],
-    "aeroplane": [128,0,0],
-    "bicycle":  [0,128,0],
-    "bird":     [128,128,0],
-    "boat":     [0,0,128],
-    "bottle":   [128,0,128],
-    "bus":      [0,128,128],
-    "car":      [128,128,128],
-    "cat":      [64,0,0] ,
-    "chair":    [192,0,0],
-    "cow":      [64,128,0],
-    "dinningTable": [192,128,0],
-    "dog":          [64,0,128],
-    "horse":       [192,0,128],
-    "motorBike":   [64,128,128],
-    "person":      [192,128,128],
-    "pottedPlant": [0,64,0],
-    "sheep":       [128,64,0],
-    "sofa":        [0,192,0],
-    "train":       [128,192,0],
-    "tvmonitor":   [0,64,128],
+    "paved_road_color" : [0,0,255],
+    "nonpaved_road_color" : [0,255,0],
+    "rocks_road_color" : [255,0,0],
+    
     "vgg_url": "ftp://mi.eng.cam.ac.uk/pub/mttt2/models/vgg16.npy",
     "kitti_url": "http://kitti.is.tue.mpg.de/kitti/data_road.zip"
   },
 
+
   "arch": {
     "fcn_in": "pool5",
-    "num_classes" : 21,
+    "num_classes" : 4,
     "image_size" : 50,
-    "weight": [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    "weight": [1, 2, 2, 2],
     "num_channels" : 3,
     "whitening": false
   },
@@ -61,7 +47,6 @@
     "reseize_image": false,
     "image_height" : 384,
     "image_width" : 1248,
-
     "augment_level": 0
   },
 
@@ -81,7 +66,7 @@
       "threads": 4,
       "learning_rate": 1e-5,
       "learning_rate_step": null,
-      "max_steps": 250000
+      "max_steps": 24000
   },
   "use_fc_wd": true,
   "loss": "xentropy",
